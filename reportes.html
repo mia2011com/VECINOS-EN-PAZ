@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportar Problema - Vecinos en Paz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Vecinos en Paz</h1>
+        <p>Gestión transparente de incidencias y mantenimiento comunitario</p>
+        <nav class="navbar">
+            <a href="index.html">Inicio</a>
+            <a href="reportes.html" class="active">Reportar Problema</a>
+            <a href="salas.html">Salas Comunes</a>
+            <a href="normas.html">Convivencia</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Nuevo Reporte Vecinal</h2>
+            <form id="form-reporte">
+                <label for="nombre">Tu nombre o apartamento:</label>
+                <input type="text" id="nombre" placeholder="Ej. Ana Gómez - Apto 302" required>
+
+                <label for="categoria">Área o tipo de problema:</label>
+                <select id="categoria" required>
+                    <option value="Mantenimiento">Mantenimiento / Iluminación</option>
+                    <option value="Ruido">Ruido / Convivencia</option>
+                    <option value="Seguridad">Seguridad / Accesos</option>
+                    <option value="Limpieza">Zonas Verdes / Limpieza</option>
+                </select>
+
+                <label for="problema">Descripción detallada:</label>
+                <textarea id="problema" placeholder="Describe qué ocurre y en qué ubicación exacta..." required></textarea>
+
+                <button type="submit">Publicar reporte</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Reportes Activos de la Comunidad</h2>
+            <div id="lista-reportes">
+                <div class="reporte-item">
+                    <strong>Mantenimiento · Apto 104 (Carlos Ruiz)</strong>
+                    <p style="margin: 8px 0 0 0;">La luz del pasillo del primer piso parpadea desde anoche.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
