@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salas Comunes - Vecinos en Paz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Vecinos en Paz</h1>
+        <p>Reserva de espacios y áreas comunes de la copropiedad</p>
+        <nav class="navbar">
+            <a href="index.html">Inicio</a>
+            <a href="reportes.html">Reportar Problema</a>
+            <a href="salas.html" class="active">Salas Comunes</a>
+            <a href="normas.html">Convivencia</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Reservar Salón Comunal o BBQ</h2>
+            <form id="form-sala">
+                <label for="responsable">Nombre y Apartamento:</label>
+                <input type="text" id="responsable" placeholder="Ej. Sofía Vargas - Apto 201" required>
+
+                <label for="espacio">Selecciona el espacio:</label>
+                <select id="espacio" required>
+                    <option value="Salón Comunal Principal">Salón Comunal Principal (Cap. 40 personas)</option>
+                    <option value="Zona BBQ y Terraza">Zona BBQ y Terraza Norte</option>
+                    <option value="Sala de Juntas / Coworking">Sala de Juntas / Coworking</option>
+                </select>
+
+                <label for="fecha">Fecha estimada del evento:</label>
+                <input type="date" id="fecha" required>
+
+                <button type="submit">Solicitar Reserva</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Espacios Disponibles y Normativa</h2>
+            <div class="reporte-item">
+                <strong>Salón Comunal</strong>
+                <p style="margin: 8px 0 0 0;">Disponible de 8:00 a.m. a 10:00 p.m. Requiere depósito de garantía reembolsable de $50.000.</p>
+            </div>
+            <div class="reporte-item" style="border-left-color: var(--terracota);">
+                <strong>Zona BBQ</strong>
+                <p style="margin: 8px 0 0 0;">Incluye parrilla, mesas exteriores y puntos de energía. Prohibido equipos de alto voltaje externos.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
