@@ -43,7 +43,7 @@ header {
     width: 100%; 
     box-sizing: border-box;
     padding: 16px 48px;
-    background-color: #fffcf9; /* Blanco puro estilo Apple (o #FDF4F2 si prefieres el crema) */
+    background-color: #ffffff; /* Blanco puro estilo Apple (o #FDF4F2 si prefieres el crema) */
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
@@ -51,7 +51,7 @@ header {
 }
 
 .card {
-    background: #fffcf9;
+    background: #ffffff;
     margin-top: 20px;
     padding: 20px;
     border-radius: 8px;
@@ -79,7 +79,7 @@ textarea {
 }
 
 button {
-    background-color: #27ae60;
+    background-color: #2990a6;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -89,7 +89,7 @@ button {
 }
 
 button:hover {
-    background-color: #219653;
+    background-color: #2990a6;
 }
  
 .navbar {
