@@ -8,39 +8,26 @@
 <link rel="stylesheet" href="styles.css">
 
 <body>
-
+    <!-- 1. La barra superior que va de extremo a extremo -->
     <header>
-        <h1> Vecinos en Paz</h1>
-        <p>Plataforma comunitaria para una mejor convivencia.</p>
-         <nav class="navbar">
-        <a href="index.html" class="active">Inicio</a>
-        <a href="reportes.html">Reportar Problema</a>
-        <a href="salas.html">Salas Comunes</a>
-        <a href="normas.html">Convivencia</a>
-    </nav>
-</header>
+        <a href="index.html" class="logo-container">
+            <img src="assets/logo2.png" alt="Logo" class="logo-app">
+            <h1>Vecinos en Paz</h1>
+        </a>
+        <nav class="navbar">
+            <a href="index.html" class="active">Inicio</a>
+            <a href="reportes.html">Reportar Problema</a>
+            <a href="salas.html">Salas Comunes</a>
+            <a href="normas.html">Convivencia</a>
+        </nav>
+    </header>
 
-    <section>
-        <h2>Tablon de Anuncios</h2>
-        <article>
+    <!-- 2. Todo el contenido de la página va aquí adentro para que se vea ordenado y centrado -->
+    <main class="main-container">
+        <h2>Tablón de Anuncios</h2>
+        <section>
             <h3>Reunion de vecinos</h3>
             <p>Fecha: Viernes a las 20:00 hrs en el salón comunal.</p>
-        </article>
-    </section>
-
-    
-    <section>
-        <h2>Reportar un problema</h2>
-        <form>
-            <label for="nombre">Tu nombre:</label><br>
-            <input type="text" id="nombre" name="nombre" placeholder="Ej. Ana Gómez"><br><br>
-
-            <label for="problema">Descripción del problema:</label><br>
-            <textarea id="problema" name="problema" placeholder="Ej. Luz de pasillo fundida"></textarea><br><br>
-
-            <button type="submit">Enviar reporte</button>
-        </form>
-    </section>
-
+        </section>
+    </main>
 </body>
-</html>
