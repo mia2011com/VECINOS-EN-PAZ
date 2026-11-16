@@ -1,4 +1,12 @@
+
+
 body {
+  font-family: "Inter Tight", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,10 +17,10 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%; /* Ocupa todo el ancho disponible */
-    box-sizing: border-box; /* Evita que el padding haga la barra más ancha que la pantalla */
-    padding: 16px 48px; /* Espacio interno para que el logo y el menú no queden pegados al filo */
-    background-color: #ffffff; /* Blanco puro estilo Apple (o #FDF4F2 si prefieres el crema) */
+    width: 100%; 
+    box-sizing: border-box;
+    padding: 16px 48px;
+    background-color: #fffcf9; /* Blanco puro estilo Apple (o #FDF4F2 si prefieres el crema) */
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
@@ -20,7 +28,7 @@ header {
 }
 
 .card {
-    background: #fce5cd;
+    background: #fffcf9;
     margin-top: 20px;
     padding: 20px;
     border-radius: 8px;
@@ -95,6 +103,7 @@ header {
     /* Asegúrate de que el header mande a llamar la animación */
     animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
 
 .logo-container {
     display: flex;
