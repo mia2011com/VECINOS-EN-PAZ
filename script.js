@@ -1,3 +1,6 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtzaf4c2AluG11qVXpF1idf_TC7y32KDc",
@@ -8,13 +11,11 @@ const firebaseConfig = {
   appId: "1:3037957524:web:d1731d7d8ad8dc773ed381",
   measurementId: "G-QS5EQS9FZK"
 };
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- 1. GUARDAR REPORTE CON ESTADO INICIAL ---
+
 const formReporte = document.getElementById("form-reporte");
 
 if (formReporte) {
@@ -34,7 +35,7 @@ if (formReporte) {
                 fecha: new Date().toISOString()
             });
 
-            alert("¡Reporte guardado en la nube! 🚀");
+            alert("¡Reporte guardado exitosamente!");
             formReporte.reset();
         } catch (error) {
             console.error("Error al guardar:", error);
@@ -43,11 +44,11 @@ if (formReporte) {
     });
 }
 
-// --- 2. LEER REPORTES EN TIEMPO REAL Y PERMITIR CAMBIAR ESTADO ---
+
 const listaReportesDiv = document.getElementById("lista-reportes");
 
 if (listaReportesDiv) {
-    // Ordenamos por fecha descendente para que los nuevos salgan arriba
+
     const q = query(collection(db, "reportes"), orderBy("fecha", "desc"));
     
     onSnapshot(q, (snapshot) => {
@@ -63,7 +64,7 @@ if (listaReportesDiv) {
             const idDoc = documento.id;
             const estadoActual = data.estado || "Pendiente";
 
-            // Colores según el estado
+           
             let colorEstado = "#f59e0b"; // Amarillo (Pendiente)
             if (estadoActual === "En proceso") colorEstado = "#3b82f6"; // Azul
             if (estadoActual === "Resuelto") colorEstado = "#10b981"; // Verde
@@ -93,7 +94,7 @@ if (listaReportesDiv) {
             listaReportesDiv.appendChild(reporteItem);
         });
 
-        // Escuchar cambios en los selectores de estado
+       
         document.querySelectorAll(".select-estado").forEach((select) => {
             select.addEventListener("change", async (e) => {
                 const docId = e.target.getAttribute("data-id");
@@ -105,3 +106,135 @@ if (listaReportesDiv) {
         console.error("Error leyendo Firestore:", error);
     });
 }
+
+
+let indiceActual = 0;
+let totalSlides = 0;
+
+async function cargarComunicados() {
+  const track = document.getElementById("carruselTrack");
+  if (!track) return; 
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "comunicados"));
+    
+    if (querySnapshot.empty) {
+      track.innerHTML = `<div class="carrusel-cargando">No hay comunicados publicados aún.</div>`;
+      return;
+    }
+
+    track.innerHTML = ""; 
+    totalSlides = querySnapshot.size;
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      
+      const imagen = data.imagenUrl || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80";
+      
+      track.innerHTML += `
+        <div class="carrusel-slide">
+          <img src="${imagen}" alt="${data.titulo || 'Comunicado'}">
+          <div class="slide-info">
+            <span class="slide-badge">${data.categoria || 'Administración'}</span>
+            <h3>${data.titulo || 'Aviso Comunitario'}</h3>
+            <p>${data.descripcion || ''}</p>
+          </div>
+        </div>
+      `;
+    });
+
+    configurarBotonesCarrusel();
+  } catch (error) {
+    console.error("Error cargando comunicados:", error);
+    track.innerHTML = `<div class="carrusel-cargando">Error al cargar los comunicados.</div>`;
+  }
+}
+
+function configurarBotonesCarrusel() {
+  const track = document.getElementById("carruselTrack");
+  const btnPrev = document.getElementById("btnPrev");
+  const btnNext = document.getElementById("btnNext");
+
+  function actualizarPosicion() {
+    track.style.transform = `translateX(-${indiceActual * 100}%)`;
+  }
+
+  btnNext.addEventListener("click", () => {
+    indiceActual = (indiceActual + 1) % totalSlides;
+    actualizarPosicion();
+  });
+
+  btnPrev.addEventListener("click", () => {
+    indiceActual = (indiceActual - 1 + totalSlides) % totalSlides;
+    actualizarPosicion();
+  });
+}
+
+
+cargarComunicados();
+
+const btnAuth = document.getElementById("btnAuth");
+const modalAuth = document.getElementById("modalAuth");
+const cerrarModalAuth = document.getElementById("cerrarModalAuth");
+const formLogin = document.getElementById("formLogin");
+const mensajeAuth = document.getElementById("mensajeAuth");
+
+btnAuth.addEventListener("click", () => {
+  if (auth.currentUser) {
+    signOut(auth);
+  } else {
+    modalAuth.style.display = "flex";
+  }
+});
+
+// Cerrar modal con la X
+cerrarModalAuth.addEventListener("click", () => {
+  modalAuth.style.display = "none";
+  mensajeAuth.textContent = "";
+});
+
+
+formLogin.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    modalAuth.style.display = "none";
+    formLogin.reset();
+    mensajeAuth.textContent = "";
+  } catch (error) {
+    mensajeAuth.textContent = "Correo o contraseña incorrectos.";
+  }
+});
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    btnAuth.textContent = "Cerrar Sesión";
+  } else {
+    btnAuth.textContent = "Iniciar Sesión";
+  }
+});
+
+
+const tarjetas = document.querySelectorAll('.about-card');
+
+
+const vigilante = new IntersectionObserver((entradas) => {
+  entradas.forEach((entrada) => {
+  
+    if (entrada.isIntersecting) {
+      entrada.target.classList.add('visible'); 
+      vigilante.unobserve(entrada.target); 
+    }
+  });
+}, {
+  threshold: 0.15 
+});
+
+
+tarjetas.forEach((tarjeta) => {
+  vigilante.observe(tarjeta);
+});
