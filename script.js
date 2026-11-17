@@ -187,7 +187,7 @@ btnAuth.addEventListener("click", () => {
   }
 });
 
-// Cerrar modal con la X
+
 cerrarModalAuth.addEventListener("click", () => {
   modalAuth.style.display = "none";
   mensajeAuth.textContent = "";
@@ -222,19 +222,124 @@ onAuthStateChanged(auth, (user) => {
 const tarjetas = document.querySelectorAll('.about-card');
 
 
-const vigilante = new IntersectionObserver((entradas) => {
-  entradas.forEach((entrada) => {
-  
-    if (entrada.isIntersecting) {
-      entrada.target.classList.add('visible'); 
-      vigilante.unobserve(entrada.target); 
+const cards = document.querySelectorAll('.about-card');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
     }
   });
-}, {
-  threshold: 0.15 
-});
+}, { threshold: 0.1 });
+
+cards.forEach(card => observer.observe(card));
 
 
 tarjetas.forEach((tarjeta) => {
   vigilante.observe(tarjeta);
 });
+
+if (formReporte) {
+  formReporte.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Evita que la página se recargue
+
+   
+    const nombre = document.getElementById("nombre").value;
+    const categoria = document.getElementById("categoria").value;
+    const problema = document.getElementById("problema").value;
+
+    try {
+     
+      await addDoc(collection(db, "reportes"), {
+        nombre: nombre,
+        categoria: categoria,
+        problema: problema,
+        fecha: new Date().toLocaleDateString() 
+      });
+
+      alert("¡Reporte publicado con éxito!");
+      formReporte.reset(); 
+      cargarReportes();    
+    } catch (error) {
+      console.error("Error al guardar el reporte: ", error);
+      alert("Hubo un error al publicar el reporte. Revisa la consola.");
+    }
+  });
+}
+
+async function cargarReportes() {
+  if (!listaReportesDiv) return;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "reportes"));
+    listaReportesDiv.innerHTML = ""; // Limpiamos el contenedor antes de pintar
+
+    if (querySnapshot.empty) {
+      listaReportesDiv.innerHTML = "<p>No hay reportes activos en este momento.</p>";
+      return;
+    }
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      
+    
+      const reporteItem = document.createElement("div");
+      reporteItem.classList.add("reporte-item");
+      reporteItem.style.marginBottom = "15px";
+      reporteItem.style.padding = "12px";
+      reporteItem.style.borderLeft = "4px solid #2990a6";
+      reporteItem.style.backgroundColor = "#fdf2e5";
+      reporteItem.style.borderRadius = "6px";
+
+      reporteItem.innerHTML = `
+        <strong>${data.categoria} · ${data.nombre}</strong> <span style="font-size: 0.8rem; color: #666; float: right;">${data.fecha || ''}</span>
+        <p style="margin: 8px 0 0 0; color: #333;">${data.problema}</p>
+      `;
+
+      listaReportesDiv.appendChild(reporteItem);
+    });
+  } catch (error) {
+    console.error("Error al cargar los reportes: ", error);
+  }
+}
+
+window.addEventListener("DOMContentLoaded", cargarReportes);
+
+async function cargarReportes() {
+  if (!listaReportesDiv) return;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "reportes"));
+    console.log("Total de reportes encontrados en Firestore:", querySnapshot.size); // <--- Mira esto en F12
+    
+    listaReportesDiv.innerHTML = ""; 
+
+    if (querySnapshot.empty) {
+      listaReportesDiv.innerHTML = "<p>No hay reportes activos en este momento.</p>";
+      return;
+    }
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      console.log("Datos del reporte:", data); // <--- Revisa que los campos coincidan
+
+      const reporteItem = document.createElement("div");
+      reporteItem.style.marginBottom = "15px";
+      reporteItem.style.padding = "12px";
+      reporteItem.style.borderLeft = "4px solid #2990a6";
+      reporteItem.style.backgroundColor = "#fdf2e5";
+      reporteItem.style.borderRadius = "6px";
+
+      reporteItem.innerHTML = `
+        <strong>${data.categoria || 'General'} · ${data.nombre || 'Anónimo'}</strong> 
+        <span style="font-size: 0.8rem; color: #666; float: right;">${data.fecha || ''}</span>
+        <p style="margin: 8px 0 0 0; color: #333;">${data.problema}</p>
+      `;
+
+      listaReportesDiv.appendChild(reporteItem);
+    });
+  } catch (error) {
+    console.error("Error al cargar reportes: ", error);
+  }
+}

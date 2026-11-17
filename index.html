@@ -8,20 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <header>
-        <a href="index.html" class="logo-container">
-            <img src="assets/logo2.png" alt="Logo" class="logo-app">
-            <link rel="icon" href="assets/logochico.png" type="image/png">
-            <h1>Vecinos en Paz</h1>
-        </a>
-        <nav class="navbar">
-            <a href="index.html" class="active">Inicio</a>
-            <a href="reportes.html">Reportar Problema</a>
-            <a href="salas.html">Salas Comunes</a>
-            <a href="normas.html">Convivencia</a>
-            <a href="reservas.html">Reservas</a>
-        </nav>
-    </header>
+
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
+    <a href="index.html" class="logo-container" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="assets/logo2.png" alt="Logo" class="logo-app" style="height: 40px; margin-right: 10px;">
+        <h1 style="font-size: 1.2rem; margin: 0;">Vecinos en Paz</h1>
+    </a>
+
+    <nav class="navbar">
+        <a href="index.html">Inicio</a>
+        <a href="reportes.html">Reportar Problema</a>
+        <a href="salas.html">Salas Comunes</a>
+        <a href="normas.html">Convivencia</a>
+        <a href="reservas.html">Reservas</a>
+    </nav>
+</header>
+
     <section class="hero-section">
 </section>
 
@@ -130,17 +132,19 @@
   </div>
 
   <div class="carrusel-wrapper">
-    
-    <button class="carrusel-btn prev" id="btnPrev" aria-label="Anterior">&#10094;</button>
+    <div id="lista-comunicados" style="padding: 15px; text-align: center; color: #333;">
+    <p style="margin: 0; font-size: 1rem;">
+        <strong>📢 Aviso de Administración:</strong> Jornada de aseo y mantenimiento de áreas comunes programada para este fin de semana. ¡Agradecemos su participación!
+    </p>
+</div>
+<p style="margin: 0 0 12px 0; font-size: 1rem;">
+        <strong>💡 Recordatorio:</strong> La reunión general de copropietarios será el próximo jueves a las 7:00 p.m. por videollamada.
+    </p>
 
-    
-    <div class="carrusel-track" id="carruselTrack">
-      <div class="carrusel-cargando">Cargando comunicados...</div>
-    </div>
-
+    <p style="margin: 0; font-size: 1rem;">
+        <strong>🛠️ Mantenimiento:</strong> Se reanudará el servicio de agua este mediodía tras finalizar las reparaciones del tanque principal.
+    </p>
   
-    <button class="carrusel-btn next" id="btnNext" aria-label="Siguiente">&#10095;</button>
-  </div>
 </section>
 
 
